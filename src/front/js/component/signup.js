@@ -2,26 +2,25 @@ import React, { useContext, useState } from "react";
 import { Context } from "../store/appContext";
 import { useNavigate } from "react-router-dom";
 
-export const Form = () => {
+export const Signup = () => {
+  
   const { actions } = useContext(Context);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  function sendData(e) {
+  const handleSignup = async (e) => {
     e.preventDefault();
-    console.log("send data");
-    console.log(email, password);
-    actions.login(email, password).then((success) => {
-      if (success) navigate("/private"); // Redirige a /private tras éxito
-    });
-  }
+    console.log("signup data", email, password);
+    const success = await actions.signup(email, password);
+    if (success) navigate("/login"); //Redirige a /login tras éxito
+  };
 
   return (
     <div>
-      <form className="w-50 mx-auto" onSubmit={sendData}>
+      <form className="w-50 mx-auto" onSubmit={handleSignup}>
         <div className="mb-3">
-          <label htmlFor="exampleInputEmail1" className="form-label">
+          <label htmlFor="signupEmail" className="form-label">
             Email address
           </label>
           <input
@@ -29,12 +28,12 @@ export const Form = () => {
             onChange={(e) => setEmail(e.target.value)}
             type="email"
             className="form-control"
-            id="exampleInputEmail1"
+            id="signupEmail"
             aria-describedby="emailHelp"
           />
         </div>
         <div className="mb-3">
-          <label htmlFor="exampleInputPassword1" className="form-label">
+          <label htmlFor="signupPassword" className="form-label">
             Password
           </label>
           <input
@@ -42,15 +41,15 @@ export const Form = () => {
             onChange={(e) => setPassword(e.target.value)}
             type="password"
             className="form-control"
-            id="exampleInputPassword1"
+            id="signupPassword"
           />
         </div>
         <button type="submit" className="btn btn-primary">
-          Login
+          Sign Up
         </button>
       </form>
     </div>
   );
 };
 
-export default Form;
+export default Signup;
